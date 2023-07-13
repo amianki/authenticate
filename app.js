@@ -1,10 +1,22 @@
+const { ifError } = require("assert");
 const express = require("express");
 const app = express();
 const port = 3300;
 
-app.get('/',(req,res)=>{
+function verify (req,res,next){
+    const q = req.query.q;
+    if (q==undefined) {
+        res.send("unauthorised")
+    }
+    else{
+        next();
+    }
+}
 
-    res.send("This is home page")
+
+app.get('/',verify,(req,res)=>{
+
+    res.send("Authorised")
 })
 
 app.listen(port,()=>{
